@@ -5,6 +5,8 @@ import google.generativeai as gemini
 import pymongo
 import aiohttp
 import magic
+from dotenv import load_dotenv
+import os
 from telegram import Bot, Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
