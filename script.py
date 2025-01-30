@@ -59,11 +59,19 @@ async def handle_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     await update.message.reply_text("Phone number registered successfully!")
 
-# Function to interact with Gemini AI
+
+# Function to interact with Gemini AI with error handling
 async def gemini_chat(query):
-    model = gemini.GenerativeModel("gemini-pro")  # Correct model if necessary
-    response = model.generate_content(query)
-    return response.text  # Ensure you're handling it correctly.
+    try:
+        model = gemini.GenerativeModel("gemini-pro")  # Correct model if necessary
+        response = model.generate_content(query)
+        return response.text  # Ensure you're handling it correctly.
+    except google.api_core.exceptions.InternalServerError as e:
+        logging.error(f"Gemini AI request failed with error: {e}")
+        return "Sorry, there was an issue processing your request. Please try again later."
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
+        return "An unexpected error occurred. Please try again later."
 
 # Async message handler
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
